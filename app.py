@@ -8,8 +8,7 @@ from PIL import Image
 from transformers import pipeline
 from sqlalchemy import create_engine, text
 
-# 📌 Supabase DB credentials
-load_dotenv()  # Load .env file
+
 
 password = st.secrets["DB_PASSWORD"]
 db_url = f"postgresql://postgres:{password}@db.hvnmzrrskpgdhyvumbrr.supabase.co:5432/postgres"
