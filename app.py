@@ -11,7 +11,7 @@ from sqlalchemy import create_engine, text
 
 
 password = st.secrets["DB_PASSWORD"]
-db_url = f"postgresql://postgres:{password}@db.hvnmzrrskpgdhyvumbrr.supabase.co:5432/postgres"
+db_url = f"postgresql://postgres:{password}@postgres.hvnmzrrskpgdhyvumbrr.supabase.co:6543/postgres"
 engine = create_engine(db_url)
 
 # 🔍 Load image classification model
