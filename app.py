@@ -3,7 +3,7 @@
 
 
 import os
-from dotenv import load_dotenv
+from dotenv.main import load_dotenv
 import streamlit as st
 import pandas as pd
 from PIL import Image
