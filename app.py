@@ -27,7 +27,7 @@ uploaded_file = st.file_uploader("📷 Upload a food image", type=["jpg", "jpeg"
 
 if uploaded_file:
     image = Image.open(uploaded_file)
-    st.image(image, caption="Uploaded Image", use_container_width=True)
+    st.image(image, caption="Uploaded Image")
 
     with st.spinner("🔍 Identifying food..."):
         prediction = classifier(image)[0]
