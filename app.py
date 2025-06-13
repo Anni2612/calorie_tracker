@@ -332,6 +332,7 @@ from PIL import Image
 from transformers import pipeline
 from sqlalchemy import create_engine, text
 import hashlib
+import matplotlib.pyplot as plt
 
 # === DB Setup ===
 password = st.secrets["DB_PASSWORD"]
@@ -474,7 +475,7 @@ if st.session_state.user_id:
                 matches = df_match["food"].tolist()
 
         if matches:
-            final_food = st.selectbox("Select from database:", matches, index=0)
+            final_food = st.selectbox("if you think food is not matched select its option :", matches, index=0)
         else:
             final_food = user_input.strip().lower()
             st.warning("⚠️ No match found — using typed value.")
@@ -488,6 +489,28 @@ if st.session_state.user_id:
             row = df.iloc[0]
             st.subheader("Nutritional Info")
             st.caption("ℹ️ 1 serving = standard portion size, typically 100 grams or 1 unit (e.g., 1 egg, 1 slice, or 1 bowl). Adjust based on what you consumed.")
+            
+            # 🎯 Extract macronutrients from `row` (after fetching food data)
+            carbs = float(row.get("carbohydrates", 0) or 0)
+            protein = float(row.get("protein", 0) or 0)
+            fat = float(row.get("fat", 0) or 0)
+            sugar = float(row.get("free_sugar_g", 0) or 0)
+            fibre = float(row.get("fibre_g", 0) or 0)
+
+            # 🔍 Filter and prepare data
+            labels = ["Carbohydrates", "Protein", "Fat", "Free Sugar", "Fibre"]
+            values = [carbs, protein, fat, sugar, fibre]
+            filtered = [(l, v) for l, v in zip(labels, values) if v > 0]
+            labels, values = zip(*filtered) if filtered else ([], [])
+
+            # 🥧 Display Pie Chart
+            if values:
+                fig, ax = plt.subplots()
+                ax.pie(values, labels=labels, autopct="%1.1f%%", startangle=140)
+                ax.axis("equal")
+                st.pyplot(fig)
+            else:
+                st.info("ℹ️ Macronutrient values not available to plot.")
             for col in df.columns:
                 if col != "food":
                     val = round(float(row[col]) * servings, 2) if pd.notnull(row[col]) else "N/A"
