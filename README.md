@@ -25,7 +25,37 @@ An AI-powered full-stack nutrition tracking web app built with **Streamlit** and
 - 🔐 Email-Based User Authentication (Supabase)
 
 ---
+🧹 Data Preprocessing & Integration
 
+A crucial part of this AI-powered calorie tracker was building a robust nutrition database from multiple sources. Here’s how I approached it:
+
+📦 Data Sources:
+	•	USDA Nutrition Dataset
+	•	OpenFoodFacts API dumps
+	•	Additional datasets containing micronutrient information and food group classifications
+
+⸻
+## 🧪 Cleaning & Processing Steps
+
+| Step | Description |
+|------|-------------|
+| 1. Remove Invalid Entries | Dropped rows with nulls, non-edible items, or zero calories |
+| 2. Column Normalization | Standardized column names and units (e.g., kcal, g, mg) |
+| 3. Label Cleaning | Cleaned food names using regex, `str.replace()` for consistency |
+| 4. Nutrient Extraction | Focused on key macros: protein, carbohydrates, fat, free sugar, fiber |
+| 5. Serving Size Alignment | Normalized data to 100g serving size for consistency |
+| 6. Data Merging | Used `pandas.merge()` and `concat()` to unify multiple datasets |
+| 7. Feature Engineering | Added fields like `caloric_density`, `macro_ratio`, `food_group` |
+| 8. Output Files Generated | Final datasets: <br>• `merged_food_group_dataset.csv`<br>• `filtered_nutrition_dataset.csv`<br>• `merged_extra_nutrition_dataset.csv`<br>• `final_combined_nutrition_dataset.csv` |
+
+⸻
+
+🛠️ Final Output:
+	•	The final dataset was uploaded to a Supabase PostgreSQL table (foods) using Python and SQLAlchemy.
+	•	This structured data serves as the core lookup for nutrient values in the app and supports user-specific recommendations and chart visualizations.
+
+
+---
 ## ⚙️ Tech Stack
 ## 🛠️ Installation Guide
 
@@ -77,17 +107,18 @@ pip install -r requirements.txt
 
 ⸻
 
-📂 File Structure
-ile/Folder
-Description
-app.py
-Main Streamlit application
-requirements.txt
-Python package dependencies
-.streamlit/
-Contains secrets.toml config
-README.md
-You are here
+## 📂 File Structure
+
+| File/Folder                      | Description                                      |
+|----------------------------------|--------------------------------------------------|
+| `app.py`                         | Main Streamlit application script               |
+| `requirements.txt`              | Python package dependencies                     |
+| `.streamlit/`                   | Contains `secrets.toml` for DB credentials      |
+| `README.md`                     | You are here – project documentation            |
+| `filtered_nutrition_dataset.csv`| Cleaned dataset with key nutrients              |
+| `final_combined_nutrition_dataset.csv` | Final merged dataset with all fields     |
+| `merged_extra_nutrition_dataset.csv` | Additional merged data for micronutrients |
+| `merged_food_group_dataset.csv` | Dataset including food group classification     |
 
 📄 License
 
